@@ -1,12 +1,14 @@
 import App from './app';
 
 import dotenv from 'dotenv';
-import LotusRPCEngine from '@openworklabs/lotus-jsonrpc-engine';
+
 
 import { homeRouter } from './routes/homeRouter';
 import bodyParser from 'body-parser';
 import errorMiddleware from './middleware/errorMiddleware';
 import { loggerMiddleware } from './middleware/logger';
+import { initLotus } from './lotus';
+import { lotusRouter } from './routes/lotusRouter';
 
 dotenv.config();
 
@@ -19,20 +21,8 @@ appInstance.app.use(loggerMiddleware);
 appInstance.app.use(errorMiddleware);
 appInstance.app.use('/', homeRouter);
 
-const init = async () => {
-    const lotusJWT = process.env.JWT;
+initLotus();
 
-    const config = {
-        // defaults to local as seen below
-        apiAddress: process.env.LOTUS,
-        token: lotusJWT,
-    }
-
-    const lotusRPC = new LotusRPCEngine(config)
-
-    const chainHead = await lotusRPC.request('ChainHead')
-    console.log(chainHead);
-}
-init();
+appInstance.app.use('/api/', lotusRouter);
 
 appInstance.listen();
