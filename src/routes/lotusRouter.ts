@@ -16,7 +16,19 @@ const lotusController: LotusController = new LotusController();
 
 // TODO: lotus client deal <Data CID> <miner> <price> <duration>
 
-// TODO: lotus client list-deals
+lotusRouter.get('/listDeals', async (req: Request, res: Response, next: NextFunction) => {
+    const start: number = performance.now();
+    try {
+        const result: any = await lotusController.listDeals();
+        const time: number = performance.now() - start;
+        res.status(200).json({
+            result,
+            time
+        })
+    } catch (error) {
+        next(error);
+    }
+});
 
 // TODO: lotus client find <Data CID>
 
