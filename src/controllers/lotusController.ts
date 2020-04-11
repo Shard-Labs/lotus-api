@@ -4,7 +4,7 @@ export class LotusController {
     async listDeals() {
         return await lotusRPC.request('ClientListDeals');
     }
-    
+
     async syncState() {
         return await lotusRPC.request('SyncState');
     }
