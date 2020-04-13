@@ -1,6 +1,11 @@
 import { lotusRPC } from '../lotus';
 
 export class LotusController {
+    async clientImport(path: any){
+        console.log(path);
+        return await lotusRPC.request('ClientImport', path);
+    }
+    
     async listDeals() {
         return await lotusRPC.request('ClientListDeals');
     }

@@ -7,6 +7,19 @@ export let lotusRouter: Router = Router();
 const lotusController: LotusController = new LotusController();
 
 // TODO: lotus client import ./your-example-file.txt
+lotusRouter.post('/clientImport', async (req: Request, res: Response, next: NextFunction) => {
+    const start: number = performance.now();
+    try {
+        const result: any = await lotusController.getDealInfo(req.body);
+        const time: number = performance.now() - start;
+        res.status(200).json({
+            result,
+            time
+        })
+    } catch (error) {
+        next(error);
+    }
+});
 
 // TODO. lotus client local
 
